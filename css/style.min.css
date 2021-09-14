@@ -147,10 +147,14 @@ body .close-btn {
   width: 3rem;
   height: 3rem;
   color: #19b5fe;
+  border: none;
+  background-color: transparent;
 }
 body .close-btn:hover {
   -webkit-transform: rotate(180deg);
   transform: rotate(180deg);
+  border: none;
+  background-color: transparent;
 }
 body .underline {
   display: inline-block;

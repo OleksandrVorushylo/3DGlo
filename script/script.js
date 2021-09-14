@@ -72,7 +72,10 @@ window.addEventListener('DOMContentLoaded', () => {
     };
 
     btnMenu.addEventListener('click', handlerMenu);    
-    closeBtn.addEventListener('click', handlerMenu);
+    closeBtn.addEventListener('click', event => {
+      event.preventDefault();
+      handlerMenu();
+    });
     // for (let i = 0; i < menuItems.length; i++) {
     //   menuItems[i].addEventListener('click', handlerMenu);
     // }
@@ -119,8 +122,9 @@ window.addEventListener('DOMContentLoaded', () => {
   togglePopUp();
 
   // Плавная прокрутка
-
-  const anchors = document.querySelectorAll('a[href*="#"]');
+  /* jshint ignore:start */
+  const scroll = function() {
+    const anchors = document.querySelectorAll('a[href*="#"]');
 
     for (const anchor of anchors) {
       anchor.addEventListener('click', event => {
@@ -132,5 +136,10 @@ window.addEventListener('DOMContentLoaded', () => {
         });
       });
     }
+  };
+  scroll();
+  /* jshint ignore:end */
+
+  
 
 });
