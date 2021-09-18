@@ -85,10 +85,11 @@ window.addEventListener('DOMContentLoaded', () => {
         event.preventDefault();
         handlerMenu();
       }
-      if (target.closest('UL>LI')) {
+      if (target.closest('UL>LI>A')) {
         handlerMenu();
       }
-      if (!target.closest('.active-menu') && !target.closest('.menu')) menu.classList.remove('active-menu');
+      // eslint-disable-next-line max-len
+      if (!target.closest('.active-menu') && !target.closest('.menu') && target.closest('UL>LI>A')) menu.classList.remove('active-menu');
     });
 
   };
