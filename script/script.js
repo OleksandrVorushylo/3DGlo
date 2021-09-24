@@ -303,7 +303,96 @@ window.addEventListener('DOMContentLoaded', () => {
 
     startSlide(6000);
   };
-  
   slider();
+
+  // Наша команда
+
+  const command = () => {
+    const commandPhoto = document.querySelectorAll('.command__photo');
+    commandPhoto.forEach(item => {
+        let photoSrc;
+        item.addEventListener('mouseover', event => {
+        photoSrc = event.target.src;
+        event.target.src = event.target.dataset.img;
+      });
+        item.addEventListener('mouseout', event => {
+        event.target.src = photoSrc;
+      });
+    });
+
+    // commandPhoto.addEventListener('mouseenter', event => {
+    //   event.target.src = event.target.dataset.img;
+    // });
+  };
+  command();
+
+  // Валидация
+
+  const validation = () => {
+    // Валидация калькулятора
+    const inputCalc = document.querySelectorAll('.calc-item');
+    inputCalc.forEach(item => {
+      item.addEventListener('input', () => {
+      item.value = item.value.replace(/\D/g, '');
+      });  
+    });
+    // Валидация формы
+    const forms = document.querySelectorAll('form'),
+          inputs = document.querySelectorAll('input');
+    forms.forEach(item => {
+      item.addEventListener('input', event => {
+        const input = event.target;
+        if (input.id === 'form2-name' || input.id === 'form2-message' || input.id === 'form1-name') {
+          input.value = input.value.replace(/[^а-яё -]/ig, '');
+        }
+        if (input.id === 'form2-email' || input.id === 'form1-email') {
+          input.value = input.value.replace(/[^a-z@-_.!~*']/ig, '');
+        }
+        if (input.id === 'form1-phone' || input.id === 'form2-phone') {
+          input.value = input.value.replace(/[^0-9()-]/ig, '');
+        }
+      });
+    });
+    inputs.forEach(item => {
+      item.addEventListener('blur', event => {
+        const input = event.target;
+        if (input.id === 'form2-name' || input.id === 'form1-name') {
+          input.value = input.value.replace(/[^а-яё -]/ig, '');
+          input.value = input.value.trim();
+          input.value = input.value.replace(/\s+/ig, ' ');
+          
+              if (input.value.match(/^-+|-+$/)) {
+              input.value = input.value.replace(/^-+|-+$/g, '');
+              if (input.value.match(/^\s+|\s+$/)) {
+                input.value = input.value.replace(/^\s+|\s+$/g, '');
+              }
+            } else {
+              input.value = input.value.replace(/-+/g, '-');
+            }
+
+          input.value = input.value.split(/\s+/).map(word => word[0].toUpperCase() + word.substring(1)).join(' ');
+
+        }
+        if (input.id === 'form2-message') {
+          input.value = input.value.replace(/[^а-яё -]/ig, '');
+          input.value = input.value.trim();
+          input.value = input.value.replace(/\s+/ig, ' ');
+        }
+        if (input.id === 'form2-email' || input.id === 'form1-email') {
+          input.value = input.value.replace(/[^a-z@-_.!~*']/ig, '');
+          input.value = input.value.trim();
+          input.value = input.value.replace(/\s+/ig, ' ');
+        }
+        if (input.id === 'form1-phone' || input.id === 'form2-phone') {
+          input.value = input.value.replace(/[^0-9()-]/ig, '');
+          input.value = input.value.trim();
+          input.value = input.value.replace(/\s+/ig, ' ');
+        }
+      });
+    });
+    
+  };
+  validation();
+  
 
 });
