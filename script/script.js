@@ -328,71 +328,71 @@ window.addEventListener('DOMContentLoaded', () => {
 
   // Валидация
 
-  // const validation = () => {
-  //   // Валидация калькулятора
-  //   const inputCalc = document.querySelectorAll('.calc-item');
-  //   inputCalc.forEach(item => {
-  //     item.addEventListener('input', () => {
-  //     item.value = item.value.replace(/\D/g, '');
-  //     });  
-  //   });
-  //   // Валидация формы
-  //   const forms = document.querySelectorAll('form'),
-  //         inputs = document.querySelectorAll('input');
-  //   forms.forEach(item => {
-  //     item.addEventListener('input', event => {
-  //       const input = event.target;
-  //       if (input.id === 'form2-name' || input.id === 'form2-message' || input.id === 'form1-name') {
-  //         input.value = input.value.replace(/[^а-яё -]/ig, '');
-  //       }
-  //       if (input.id === 'form2-email' || input.id === 'form1-email') {
-  //         input.value = input.value.replace(/[^a-z@-_.!~*']/ig, '');
-  //       }
-  //       if (input.id === 'form1-phone' || input.id === 'form2-phone') {
-  //         input.value = input.value.replace(/[^0-9()-]/ig, '');
-  //       }
-  //     });
-  //   });
-  //   inputs.forEach(item => {
-  //     item.addEventListener('blur', event => {
-  //       const input = event.target;
-  //       if (input.id === 'form2-name' || input.id === 'form1-name') {
-  //         input.value = input.value.replace(/[^а-яё -]/ig, '');
-  //         input.value = input.value.trim();
-  //         input.value = input.value.replace(/\s+/ig, ' ');
+  const validation = () => {
+    // Валидация калькулятора
+    const inputCalc = document.querySelectorAll('.calc-item');
+    inputCalc.forEach(item => {
+      item.addEventListener('input', () => {
+      item.value = item.value.replace(/\D/g, '');
+      });  
+    });
+    // Валидация формы
+    const forms = document.querySelectorAll('form'),
+          inputs = document.querySelectorAll('input');
+    forms.forEach(item => {
+      item.addEventListener('input', event => {
+        const input = event.target;
+        if (input.id === 'form2-name' || input.id === 'form2-message' || input.id === 'form1-name') {
+          input.value = input.value.replace(/[^а-яё -]/ig, '');
+        }
+        if (input.id === 'form2-email' || input.id === 'form1-email') {
+          input.value = input.value.replace(/[^a-z@-_.!~*']/ig, '');
+        }
+        if (input.id === 'form1-phone' || input.id === 'form2-phone') {
+          input.value = input.value.replace(/[^0-9()-]/ig, '');
+        }
+      });
+    });
+    inputs.forEach(item => {
+      item.addEventListener('blur', event => {
+        const input = event.target;
+        if (input.id === 'form2-name' || input.id === 'form1-name' || input.id === 'form3-name') {
+          input.value = input.value.replace(/[^а-яё -]/ig, '');
+          input.value = input.value.trim();
+          input.value = input.value.replace(/\s+/ig, ' ');
           
-  //             if (input.value.match(/^-+|-+$/)) {
-  //             input.value = input.value.replace(/^-+|-+$/g, '');
-  //             if (input.value.match(/^\s+|\s+$/)) {
-  //               input.value = input.value.replace(/^\s+|\s+$/g, '');
-  //             }
-  //           } else {
-  //             input.value = input.value.replace(/-+/g, '-');
-  //           }
+              if (input.value.match(/^-+|-+$/)) {
+              input.value = input.value.replace(/^-+|-+$/g, '');
+              if (input.value.match(/^\s+|\s+$/)) {
+                input.value = input.value.replace(/^\s+|\s+$/g, '');
+              }
+            } else {
+              input.value = input.value.replace(/-+/g, '-');
+            }
 
-  //         input.value = input.value.split(/\s+/).map(word => word[0].toUpperCase() + word.substring(1)).join(' ');
+          input.value = input.value.split(/\s+/).map(word => word[0].toUpperCase() + word.substring(1)).join(' ');
 
-  //       }
-  //       if (input.id === 'form2-message') {
-  //         input.value = input.value.replace(/[^а-яё -]/ig, '');
-  //         input.value = input.value.trim();
-  //         input.value = input.value.replace(/\s+/ig, ' ');
-  //       }
-  //       if (input.id === 'form2-email' || input.id === 'form1-email') {
-  //         input.value = input.value.replace(/[^a-z@-_.!~*']/ig, '');
-  //         input.value = input.value.trim();
-  //         input.value = input.value.replace(/\s+/ig, ' ');
-  //       }
-  //       if (input.id === 'form1-phone' || input.id === 'form2-phone') {
-  //         input.value = input.value.replace(/[^0-9()-]/ig, '');
-  //         input.value = input.value.trim();
-  //         input.value = input.value.replace(/\s+/ig, ' ');
-  //       }
-  //     });
-  //   });
+        }
+        if (input.id === 'form2-message') {
+          input.value = input.value.replace(/[^а-яё -]/ig, '');
+          input.value = input.value.trim();
+          input.value = input.value.replace(/\s+/ig, ' ');
+        }
+        if (input.id === 'form2-email' || input.id === 'form1-email' || input.id === 'form3-email') {
+          input.value = input.value.replace(/[^a-z@-_.!~*']/ig, '');
+          input.value = input.value.trim();
+          input.value = input.value.replace(/\s+/ig, ' ');
+        }
+        if (input.id === 'form1-phone' || input.id === 'form2-phone' || input.id === 'form3-phone') {
+          input.value = input.value.replace(/[^0-9()+-]/ig, '');
+          input.value = input.value.trim();
+          input.value = input.value.replace(/\s+/ig, ' ');
+        }
+      });
+    });
     
-  // };
-  // validation();
+  };
+  validation();
 
   // Калькулятор
 
@@ -463,6 +463,80 @@ window.addEventListener('DOMContentLoaded', () => {
           
   };
   calc(100);
-  //  jj
+
+
+  //  send-AJAX-form
+
+  const sendForm = () => {
+    const errorMessage = 'Что то пошло не так',
+        loadMessage = 'Загрузка...',
+        succesMessage = 'Спасибо! Мы скоро с вами свяжемся!';
+        
+
+    const forms = document.querySelectorAll('form');
+
+    const statusMessage = document.createElement('div');
+    statusMessage.style.cssText = `font-size: 2rem;
+                                  color: white;`;
+
+    forms.forEach(form => {
+
+        form.addEventListener('submit', event => {
+        event.preventDefault();
+        form.appendChild(statusMessage);
+
+        statusMessage.textContent = loadMessage;
+        const formData = new FormData(form);
+        const body = {};  // Если серверу нужен JSON формат
+
+        // for (const val of formData.entries()) {
+        //   body[val[0]] = val[1];
+        // }
+
+        formData.forEach((val, key) => {
+          body[key] = val;
+        });
+        // eslint-disable-next-line no-use-before-define
+        postData(body, () => {
+          statusMessage.textContent = succesMessage;
+        }, error => {
+          statusMessage.textContent = errorMessage;
+          console.error(error);
+        });
+
+        [...form].forEach(input => {
+					input.value = '';
+				});
+
+      });
+
+      const postData = (body, outputData, errorData) => {
+        const request = new XMLHttpRequest();
+
+        request.addEventListener('readystatechange', () => {
+          if (request.readyState !== 4) {
+            return;
+          }
+          if (request.status === 200) {
+            outputData();
+          } else {
+            errorData(request.status);
+          }
+        });
+
+        request.open('POST', './server.php');
+        request.setRequestHeader('Content-Type', 'application/json');
+        
+
+
+
+        request.send(JSON.stringify(body));
+      };
+
+    });
+
+  };
+
+  sendForm();
 
 });
