@@ -342,14 +342,15 @@ window.addEventListener('DOMContentLoaded', () => {
     forms.forEach(item => {
       item.addEventListener('input', event => {
         const input = event.target;
-        if (input.id === 'form2-name' || input.id === 'form2-message' || input.id === 'form1-name') {
-          input.value = input.value.replace(/[^а-яё -]/ig, '');
+        // eslint-disable-next-line max-len
+        if (input.id === 'form2-name' || input.id === 'form2-message' || input.id === 'form1-name' || input.id === 'form3-name') {
+          input.value = input.value.replace(/[^а-яё -,.:;]/ig, '');
         }
-        if (input.id === 'form2-email' || input.id === 'form1-email') {
-          input.value = input.value.replace(/[^a-z@-_.!~*']/ig, '');
+        if (input.id === 'form2-email' || input.id === 'form1-email' || input.id === 'form3-email') {
+          input.value = input.value.replace(/[^a-z0-9@-_.!~*']/ig, '');
         }
-        if (input.id === 'form1-phone' || input.id === 'form2-phone') {
-          input.value = input.value.replace(/[^0-9()-]/ig, '');
+        if (input.id === 'form1-phone' || input.id === 'form2-phone' || input.id === 'form3-phone') {
+          input.value = input.value.replace(/^\+?[0378]([-()]*\d){9,11}$/ig, '');
         }
       });
     });
@@ -370,21 +371,21 @@ window.addEventListener('DOMContentLoaded', () => {
               input.value = input.value.replace(/-+/g, '-');
             }
 
-          input.value = input.value.split(/\s+/).map(word => word[0].toUpperCase() + word.substring(1)).join(' ');
+          // input.value = input.value.split(/\s+/).map(word => word[0].toUpperCase() + word.substring(1)).join(' ');
 
         }
         if (input.id === 'form2-message') {
-          input.value = input.value.replace(/[^а-яё -]/ig, '');
+          input.value = input.value.replace(/[^а-яё -,.:;]/ig, '');
           input.value = input.value.trim();
           input.value = input.value.replace(/\s+/ig, ' ');
         }
         if (input.id === 'form2-email' || input.id === 'form1-email' || input.id === 'form3-email') {
-          input.value = input.value.replace(/[^a-z@-_.!~*']/ig, '');
+          input.value = input.value.replace(/[^a-z0-9@-_.!~*']/ig, '');
           input.value = input.value.trim();
           input.value = input.value.replace(/\s+/ig, ' ');
         }
         if (input.id === 'form1-phone' || input.id === 'form2-phone' || input.id === 'form3-phone') {
-          input.value = input.value.replace(/[^0-9()+-]/ig, '');
+          input.value = input.value.replace(/^\+?[0378]([-()]*\d){9,11}$/ig, '');
           input.value = input.value.trim();
           input.value = input.value.replace(/\s+/ig, ' ');
         }
@@ -432,6 +433,11 @@ window.addEventListener('DOMContentLoaded', () => {
               typeVal = typeValue - 1.6;
             } else {
               typeVal = typeValue;
+            }
+            if (calcType.selectedIndex === 0) {
+              calcCount.value = '';
+              calcSquare.value = '';
+              calcDay.value = '';
             }
 
 
@@ -481,6 +487,8 @@ window.addEventListener('DOMContentLoaded', () => {
 
     forms.forEach(form => {
 
+        const popup = document.querySelector('.popup');
+
         form.addEventListener('submit', event => {
         event.preventDefault();
         form.appendChild(statusMessage);
@@ -499,9 +507,14 @@ window.addEventListener('DOMContentLoaded', () => {
         // eslint-disable-next-line no-use-before-define
         postData(body, () => {
           statusMessage.textContent = succesMessage;
+          setTimeout(() => { statusMessage.textContent = ''; }, 3000);
+          setTimeout(() => { popup.style.display = 'none'; }, 6000);
         }, error => {
           statusMessage.textContent = errorMessage;
           console.error(error);
+          setTimeout(() => { statusMessage.textContent = ''; }, 3000);
+          setTimeout(() => { popup.style.display = 'none'; }, 6000);
+
         });
 
         [...form].forEach(input => {
