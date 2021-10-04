@@ -338,20 +338,57 @@ window.addEventListener('DOMContentLoaded', () => {
     });
     // Валидация формы
     const forms = document.querySelectorAll('form'),
-          inputs = document.querySelectorAll('input');
+          inputs = document.querySelectorAll('input'),
+          btn = document.querySelectorAll('.btn');
+    const phoneForm1 = document.querySelectorAll('.form-phone')[0],
+          phoneForm2 = document.querySelectorAll('.form-phone')[1],
+          phoneForm3 = document.querySelectorAll('.form-phone')[2];
+          
+    phoneForm1.setAttribute('minlength', '10');
+    phoneForm2.setAttribute('minlength', '10');
+    phoneForm3.setAttribute('minlength', '10');
+
     forms.forEach(item => {
+            const errorMsg = document.createElement('div');
+        errorMsg.className = ('error-phone');
+        errorMsg.textContent = `Номер должен быть в формате +7(XXX)XXX-XX-XX
+                              Количество символов: 10`;
+        errorMsg.style.fontSize = '10px';
+        errorMsg.style.color = 'white';
+
       item.addEventListener('input', event => {
         const input = event.target;
         // eslint-disable-next-line max-len
         if (input.id === 'form2-name' || input.id === 'form2-message' || input.id === 'form1-name' || input.id === 'form3-name') {
-          input.value = input.value.replace(/[^а-яё -,.:;]/ig, '');
+          input.value = input.value.replace(/[^а-яё -,.]/ig, '');
         }
         if (input.id === 'form2-email' || input.id === 'form1-email' || input.id === 'form3-email') {
           input.value = input.value.replace(/[^a-z0-9@-_.!~*']/ig, '');
         }
         if (input.id === 'form1-phone' || input.id === 'form2-phone' || input.id === 'form3-phone') {
           input.value = input.value.replace(/^\+?[0378]([-()]*\d){9,11}$/ig, '');
+          item.addEventListener('input', () => {
+            if (input.value.length < 18) {
+            btn[0].disabled = true;
+            btn[4].disabled = true;
+            btn[5].disabled = true;
+            input.insertAdjacentElement('afterend', errorMsg);
+            errorMsg.style.display = 'block';
+            }
+            if (input.value.length >= 18) {
+              btn[0].disabled = false;
+              btn[4].disabled = false;
+              btn[5].disabled = false;
+              errorMsg.style.display = 'none';
+            }
+            // if (errorMsg.classList.('error-phone')) {
+            //   errorMsg.classList.remove('error-phone');
+            //   console.log(1);
+            // }
+          });
+          
         }
+        
       });
     });
     inputs.forEach(item => {
@@ -375,7 +412,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
         }
         if (input.id === 'form2-message') {
-          input.value = input.value.replace(/[^а-яё -,.:;]/ig, '');
+          input.value = input.value.replace(/[^а-яё -,.]/ig, '');
           input.value = input.value.trim();
           input.value = input.value.replace(/\s+/ig, ' ');
         }
@@ -390,6 +427,7 @@ window.addEventListener('DOMContentLoaded', () => {
           input.value = input.value.replace(/\s+/ig, ' ');
         }
       });
+
     });
     
   };
@@ -505,17 +543,30 @@ window.addEventListener('DOMContentLoaded', () => {
           body[key] = val;
         });
         // eslint-disable-next-line no-use-before-define
-        postData(body, () => {
-          statusMessage.textContent = succesMessage;
-          setTimeout(() => { statusMessage.textContent = ''; }, 3000);
-          setTimeout(() => { popup.style.display = 'none'; }, 6000);
-        }, error => {
-          statusMessage.textContent = errorMessage;
-          console.error(error);
-          setTimeout(() => { statusMessage.textContent = ''; }, 3000);
-          setTimeout(() => { popup.style.display = 'none'; }, 6000);
+        // postData(body, () => {
+        //   statusMessage.textContent = succesMessage;
+        //   setTimeout(() => { statusMessage.textContent = ''; }, 3000);
+        //   setTimeout(() => { popup.style.display = 'none'; }, 6000);
+        // }, error => {
+        //   statusMessage.textContent = errorMessage;
+        //   console.error(error);
+        //   setTimeout(() => { statusMessage.textContent = ''; }, 3000);
+        //   setTimeout(() => { popup.style.display = 'none'; }, 6000);
 
-        });
+        // });
+        // eslint-disable-next-line no-use-before-define
+        postData(body)
+					.then(() => {
+            statusMessage.textContent = succesMessage;
+            setTimeout(() => { statusMessage.textContent = ''; }, 3000);
+            setTimeout(() => { popup.style.display = 'none'; }, 6000);
+          })
+					.catch(error => {
+						statusMessage.textContent = errorMessage;
+						console.error(error);
+            setTimeout(() => { statusMessage.textContent = ''; }, 3000);
+            setTimeout(() => { popup.style.display = 'none'; }, 6000);
+					});
 
         [...form].forEach(input => {
 					input.value = '';
@@ -523,28 +574,23 @@ window.addEventListener('DOMContentLoaded', () => {
 
       });
 
-      const postData = (body, outputData, errorData) => {
-        const request = new XMLHttpRequest();
-
-        request.addEventListener('readystatechange', () => {
-          if (request.readyState !== 4) {
-            return;
-          }
-          if (request.status === 200) {
-            outputData();
-          } else {
-            errorData(request.status);
-          }
-        });
-
-        request.open('POST', './server.php');
-        request.setRequestHeader('Content-Type', 'application/json');
-        
-
-
-
-        request.send(JSON.stringify(body));
-      };
+      const postData = body => new Promise((resolve, reject) => {
+                const request = new XMLHttpRequest();
+                request.addEventListener('readystatechange', () => {
+                    if (request.readyState !== 4) {
+                        return;
+                    }
+                    if (request.status === 200) {
+                        resolve();
+                    } else {
+                        statusMessage.textContent = errorMessage;
+                        reject();
+                    }
+                });
+                request.open('POST', './server.php');
+                request.setRequestHeader('Content-Type', 'application/json');
+                request.send(JSON.stringify(body));
+            });
 
     });
 
