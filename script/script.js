@@ -445,7 +445,7 @@ window.addEventListener('DOMContentLoaded', () => {
           optionValue = document.querySelectorAll('select>option')[2],
           totalValue = document.getElementById('total');
 
-          console.log('optionValue: ', optionValue);
+          
 
     const countSum = () => {
 
