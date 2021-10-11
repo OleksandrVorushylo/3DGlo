@@ -1,0 +1,33 @@
+/* eslint-disable indent */
+/* eslint-disable no-undef */
+// eslint-disable-next-line no-undef
+const path = require('path');
+
+module.exports = {
+	entry: './src/index.js',
+	output: {
+		filename: 'bundle.js',
+		path: path.resolve(__dirname, './dist'),
+	},
+  mode: 'development',
+  devServer: {
+        open: true,
+        port: 8081,
+        hot: true,
+        writeToDisk: true,
+    },
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['@babel/env']
+          },
+        },
+        exclude: /node_modules/,
+      }
+    ]
+  }
+};
