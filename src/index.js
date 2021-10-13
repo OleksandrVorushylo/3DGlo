@@ -12,7 +12,7 @@ import sendForm from './modules/sendForm';
 
 
 // Таймер
-countTimer('15 september 2021');
+countTimer('16 october 2021');
 // Меню
 toggleMenu();
 // popup Модальное окно

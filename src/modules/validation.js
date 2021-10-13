@@ -22,21 +22,67 @@ const validation = () => {
 	phoneForm3.setAttribute('minlength', '10');
 
 	forms.forEach(item => {
-		const errorMsg = document.createElement('div');
+		const errorMsg = document.createElement('div'),
+			errorMail = document.createElement('div');
 		errorMsg.className = ('error-phone');
 		errorMsg.textContent = `Номер должен быть в формате +7(XXX)XXX-XX-XX
                               Количество символов: 10`;
 		errorMsg.style.fontSize = '10px';
 		errorMsg.style.color = 'white';
 
+		errorMail.className = ('error-mail');
+		errorMail.textContent = `Электронная почта должна быть в формате XXXX@XXX.XX`;
+		errorMail.style.fontSize = '10px';
+		errorMail.style.color = 'white';
+
+		const inputMail = document.getElementById('form1-email').parentNode;
+
 		item.addEventListener('input', event => {
 			const input = event.target;
 			// eslint-disable-next-line max-len
 			if (input.id === 'form2-name' || input.id === 'form2-message' || input.id === 'form1-name' || input.id === 'form3-name') {
 				input.value = input.value.replace(/[^а-яё -,.]/ig, '');
+				item.addEventListener('input', () => {
+					if (input.value.length < 2) {
+						btn[0].disabled = true;
+						btn[4].disabled = true;
+						btn[5].disabled = true;
+						errorMsg.style.display = 'block';
+					}
+					if (input.value.length >= 2) {
+						btn[0].disabled = false;
+						btn[4].disabled = false;
+						btn[5].disabled = false;
+						errorMsg.style.display = 'none';
+					}
+				});
 			}
 			if (input.id === 'form2-email' || input.id === 'form1-email' || input.id === 'form3-email') {
 				input.value = input.value.replace(/[^a-z0-9@-_.!~*']/ig, '');
+				item.addEventListener('input', () => {
+					function validateEmail(email) {
+						const re = /\w+@\w+\.\w{2,}/;
+						return re.test(email);
+					}
+					validateEmail(input.value);
+					if (validateEmail(input.value) === false) {
+						btn[0].disabled = true;
+						btn[4].disabled = true;
+						btn[5].disabled = true;
+						input.insertAdjacentElement('afterend', errorMail);
+						errorMail.style.display = 'block';
+
+						if (errorMail.parentNode === inputMail) {
+							errorMail.style.marginTop = '-10px';
+						}
+					}
+					if (validateEmail(input.value) === true) {
+						btn[0].disabled = false;
+						btn[4].disabled = false;
+						btn[5].disabled = false;
+						errorMail.style.display = 'none';
+					}
+				});
 			}
 			if (input.id === 'form1-phone' || input.id === 'form2-phone' || input.id === 'form3-phone') {
 				input.value = input.value.replace(/^\+?[0378]([-()]*\d){9,11}$/ig, '');
